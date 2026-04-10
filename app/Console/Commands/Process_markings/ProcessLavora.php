@@ -17,7 +17,7 @@ class ProcessLavora extends Command
      */
     public function handle()
     {
-          $organi_id = $this->argument('organi_id') ?? null;
+        $organi_id = $this->argument('organi_id') ?? null;
         $organizaciones = ModelsOrganizacion_puerto::join('organizacion as o', 'organizacion_puerto.organi_id', '=', 'o.organi_id')
             ->when(!empty($organi_id), function ($query) use ($organi_id) {
                 $query->where('o.organi_id', $organi_id);
@@ -30,5 +30,6 @@ class ProcessLavora extends Command
             if ($result) continue;
             ProcessLavoraJobsV2::dispatch($organi_id, $organi_almacFoto);
         }
+        return 0;
     }
 }
