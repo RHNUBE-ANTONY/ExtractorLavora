@@ -4,7 +4,6 @@ namespace App\Console\Commands\Process_markings;
 
 use App\Jobs\ProcessLavoraJobsV2;
 use App\Models\organizacion_puerto as ModelsOrganizacion_puerto;
-use App\organizacion_puerto;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
