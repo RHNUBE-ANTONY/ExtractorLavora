@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DB\ConfiguracionDatabase;
 use App\Models\marcaciones_biometrico;
+use App\Models\tareas_programadas;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\DB;
@@ -125,4 +126,91 @@ function valid_marking_pending($organi_id)
         ->doesntExist();
     DB::disconnect($name_bd);
     return $result;
+}
+function create_tareas_programadas($registrar_tarea)
+{
+    $create_tarea = new tareas_programadas();
+    $create_tarea->fecha_inicio = $registrar_tarea['fecha_inicio'];
+    $create_tarea->descripcion = $registrar_tarea['descripcion'];
+    $create_tarea->estado = $registrar_tarea['estado'];
+    $create_tarea->type_process = $registrar_tarea['type_process'];
+    $create_tarea->save();
+    return $create_tarea->id;
+}
+function enviar_marcaciones_acceso($array_api)
+{
+    try {
+        // * API DE OPTENER CARGOS
+        $response = getClientRHNUBE()->request(
+            'POST',
+            '/api/MarcacionAccesoV1',
+            [
+                'json' => $array_api
+            ]
+        );
+        $body = json_decode($response->getBody(), true);
+        return $body;
+    } catch (RequestException $e) {
+        $decode = json_decode($e->getResponse()->getBody()->getContents(), true);
+        return response()->json(array(
+            "mensaje" =>  $decode,
+            "mensaje_servicio" => $e->getResponse()->getBody()->getContents(),
+            "status_servicio" => $e->getResponse()->getStatusCode()
+        ), 404);
+    }
+}
+function update_tareas_programadas($update_tarea)
+{
+    $tarea = tareas_programadas::find($update_tarea['id']);
+    if ($tarea) {
+        $tarea->fecha_fin = $update_tarea['fecha_fin'];
+        $tarea->estado = $update_tarea['estado'] ?? 2;
+        $tarea->save();
+    }
+    return 'OK';
+}
+function enviar_marcaciones_comendia($array_api)
+{
+    try {
+        // * API DE OPTENER CARGOS
+        $response = getClientRHNUBE()->request(
+            'POST',
+            '/api/MarcacionComendiaV1',
+            [
+                'json' => $array_api
+            ]
+        );
+        $body = json_decode($response->getBody(), true);
+        return $body;
+    } catch (RequestException $e) {
+        $decode = json_decode($e->getResponse()->getBody()->getContents(), true);
+        return response()->json(array(
+            "mensaje" =>  $decode,
+            "mensaje_servicio" => $e->getResponse()->getBody()->getContents(),
+            "status_servicio" => $e->getResponse()->getStatusCode()
+        ), 404);
+    }
+}
+function enviar_marcaciones_tarela($array_api)
+{
+    try {
+        // * API DE OPTENER CARGOS
+        $response = getClientRHNUBE()->request(
+            'POST',
+            '/api/v2/marcacionTareo',
+            [
+                'json' => $array_api
+            ]
+        );
+        $body = json_decode($response->getBody(), true);
+        return $body;
+    } catch (RequestException $e) {
+        $decode = json_decode($e->getResponse()->getBody()->getContents(), true);
+        return response()->json(array(
+            "mensaje" =>  $decode,
+            "status" => 404,
+            "mensaje_servicio" => $e->getResponse()->getBody()->getContents(),
+            "status_servicio" => $e->getResponse()->getStatusCode()
+        ), 404);
+    }
 }

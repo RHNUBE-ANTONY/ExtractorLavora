@@ -7,12 +7,24 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withSchedule(function (Schedule $schedule): void {
-        $schedule->command('app:process-lavora')
+        /*      $schedule->command('app:process-lavora')
+            ->everyFifteenMinutes()
+            ->withoutOverlapping(14)
+            ->appendOutputTo(storage_path('logs/scheduler.log')); */
+        $schedule->command('app:process-tarela')
+            ->everyFifteenMinutes()
+            ->withoutOverlapping(14)
+            ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('app:process-access')
+            ->everyFifteenMinutes()
+            ->withoutOverlapping(14)
+            ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('app:process-comendia')
             ->everyFifteenMinutes()
             ->withoutOverlapping(14)
             ->appendOutputTo(storage_path('logs/scheduler.log'));
