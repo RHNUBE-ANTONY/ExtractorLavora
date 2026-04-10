@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ApiMovilController;
+use App\Http\Controllers\apis\ApiMovilController;
 use App\Http\Controllers\apis\Extractor\ExtractorController;
 use App\Http\Controllers\CommandStatusController;
 use App\Http\Controllers\InitializeConfigurationController;
