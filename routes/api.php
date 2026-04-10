@@ -30,17 +30,17 @@ Route::get('/iclock/deviceinfo', function () {
 
 
 /* Route::get('/api/test',[apiMarcacionController::class,'prueba']); */
-Route::post('/api/ultimaConexion', [ApiMovilController::class, 'ultimaConexion']);
-Route::post('/api/RegistroDatosMovil', [ApiMovilController::class, 'RegistroDatosMovil']);
-Route::post('/api/RegistrarMarcaciones', [ApiMovilController::class, 'RegistrarMarcaciones']);
-Route::post('/api/almacenar_image', [ApiMovilController::class, 'almacenar_image']);
+Route::post('/api/ultimaConexion', [ApiMovilController::class, 'ultimaConexion'])->middleware('apilogger');
+Route::post('/api/RegistroDatosMovil', [ApiMovilController::class, 'RegistroDatosMovil'])->middleware('apilogger');
+Route::post('/api/RegistrarMarcaciones', [ApiMovilController::class, 'RegistrarMarcaciones'])->middleware('apilogger');
+Route::post('/api/almacenar_image', [ApiMovilController::class, 'almacenar_image'])->middleware('apilogger');
 
 //rutas extractor
-Route::post('/api/update-organizacion-puerto', [ExtractorController::class, 'update_organizacion_puerto']);
-Route::post('/api/update-organizacion', [ExtractorController::class, 'update_organizacion']);
-Route::post('/api/create-update-divice', [ExtractorController::class, 'create_update_divice']);
-Route::post('/api/create-commands', [ExtractorController::class, 'create_comands']);
-Route::post('/api/data-device', [ExtractorController::class, 'data_device']);
-Route::post('/api/delete-image', [ExtractorController::class, 'delete_image']);
-Route::post('/api/data-logs-jobs', [ExtractorController::class, 'data_logs_jobs']);
-Route::post('/api/data-devices-type', [ExtractorController::class, 'data_devices_type']);
+Route::post('/api/update-organizacion-puerto', [ExtractorController::class, 'update_organizacion_puerto'])->middleware('apilogger');
+Route::post('/api/update-organizacion', [ExtractorController::class, 'update_organizacion'])->middleware('apilogger');
+Route::post('/api/create-update-divice', [ExtractorController::class, 'create_update_divice'])->middleware('apilogger');
+Route::post('/api/create-commands', [ExtractorController::class, 'create_comands'])->middleware('apilogger');
+Route::post('/api/data-device', [ExtractorController::class, 'data_device'])->middleware('apilogger');
+Route::post('/api/delete-image', [ExtractorController::class, 'delete_image'])->middleware('apilogger');
+Route::post('/api/data-logs-jobs', [ExtractorController::class, 'data_logs_jobs'])->middleware('apilogger');
+Route::post('/api/data-devices-type', [ExtractorController::class, 'data_devices_type'])->middleware('apilogger');
