@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\apis;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DB\ConfiguracionDatabase;
 use App\Models\biometrico_estado;
 use App\Models\marcaciones_biometrico;
