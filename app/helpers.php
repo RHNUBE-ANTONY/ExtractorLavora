@@ -19,7 +19,7 @@ function getClientRHNUBE()
 {
     static $client = null;
     if ($client === null) {
-        $client = new Client(['base_uri' => env('RHNUBE_URL')]);
+        $client = new Client(['base_uri' => config("rhnube.api_rhnube")]);
     }
     return $client;
 }

@@ -2,8 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\BD\ConfiguracionDatabase;
-use App\Http\Controllers\DB\ConfiguracionDatabase as DBConfiguracionDatabase;
+use App\Http\Controllers\DB\ConfiguracionDatabase;
 use App\Models\jobs_logs;
 use App\Models\marcaciones_biometrico;
 use Carbon\Carbon;
@@ -64,7 +63,7 @@ class ProcessLavoraJobsV2 implements ShouldQueue
             }
             if (empty($dispositivos)) return;
             // * ----------------------------------------------------------- Conexion de base datos -----------------------------------------------------------
-            $environment =  (new DBConfiguracionDatabase($organi_id))->setBDD_Ex();
+            $environment =  (new ConfiguracionDatabase($organi_id))->setBDD_Ex();
             $connection = $environment->conexion;
             $name_bd = $environment->name;
             // * ----------------------------------------------------------------------------------------------------------------------------------------------
