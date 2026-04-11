@@ -10,8 +10,10 @@ function getClientRHNUBE()
 {
     static $client = null;
     if ($client === null) {
-        $client = new Client(['base_uri' => env('RHNUBE_URL')]);
+        $baseUri = env('RHNUBE_URL') ?: 'https://rhnube.com.pe';
+        $client = new Client(['base_uri' => $baseUri]);
     }
+    log::info('URL RHNUBE: ' . (env('RHNUBE_URL') ?: 'Se agrego por default https://rhnube.com.pe')); // Agrega esta línea para verificar la URL
     return $client;
 }
 function valid_process_organization($array_api)
