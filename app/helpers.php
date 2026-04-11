@@ -6,7 +6,6 @@ use App\Models\tareas_programadas;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 function getClientRHNUBE()
 {
@@ -14,7 +13,6 @@ function getClientRHNUBE()
     if ($client === null) {
         $client = new Client(['base_uri' => config("rhnube.api_rhnube")]);
     }
-    Log::info('Client RHNUBE initialized with base URI: ' . config("rhnube.api_rhnube"));
     return $client;
 }
 function valid_process_organization($array_api)
