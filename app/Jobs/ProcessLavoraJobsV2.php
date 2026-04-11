@@ -39,7 +39,6 @@ class ProcessLavoraJobsV2 implements ShouldQueue
         $name_bd = null;
         //eliminamos registros mayores a 24 horas
         jobs_logs::where('fecha_inicio', '<', Carbon::now('America/Lima')->subHours(24))->delete();
-        Log::info("Iniciando ProcessLavoraJobsV2 para organi_id: {$organi_id}");
         //registramos jobs_logs
         $logs = [
             'organi_id' => $organi_id,
