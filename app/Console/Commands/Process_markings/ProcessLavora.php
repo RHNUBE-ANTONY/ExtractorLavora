@@ -3,10 +3,12 @@
 namespace App\Console\Commands\Process_markings;
 
 use App\Jobs\ProcessLavoraJobsV2;
-use App\Models\organizacion_puerto as ModelsOrganizacion_puerto;
+use App\Models\organizacion_puerto;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 #[Signature('app:process-lavora {organi_id?}')]
 #[Description('Command description')]
@@ -17,8 +19,12 @@ class ProcessLavora extends Command
      */
     public function handle()
     {
+        if (DB::table('jobs')->where('queue', 'lavora')->count() > 0) {
+            Log::warning('Too many pending jobs in the queue. Skipping this run.');
+            return 0;
+        }
         $organi_id = $this->argument('organi_id') ?? null;
-        $organizaciones = ModelsOrganizacion_puerto::join('organizacion as o', 'organizacion_puerto.organi_id', '=', 'o.organi_id')
+        $organizaciones = organizacion_puerto::join('organizacion as o', 'organizacion_puerto.organi_id', '=', 'o.organi_id')
             ->when(!empty($organi_id), function ($query) use ($organi_id) {
                 $query->where('o.organi_id', $organi_id);
             })
