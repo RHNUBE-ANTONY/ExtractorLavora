@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Process_markings;
 
 use App\Jobs\ProcessLavoraJobsV2;
-use App\Models\organizacion_puerto as ModelsOrganizacion_puerto;
+use App\Models\organizacion_puerto;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -24,7 +24,7 @@ class ProcessLavora extends Command
             return 0;
         }
         $organi_id = $this->argument('organi_id') ?? null;
-        $organizaciones = ModelsOrganizacion_puerto::join('organizacion as o', 'organizacion_puerto.organi_id', '=', 'o.organi_id')
+        $organizaciones = organizacion_puerto::join('organizacion as o', 'organizacion_puerto.organi_id', '=', 'o.organi_id')
             ->when(!empty($organi_id), function ($query) use ($organi_id) {
                 $query->where('o.organi_id', $organi_id);
             })
@@ -34,7 +34,6 @@ class ProcessLavora extends Command
         foreach ($organizaciones as $organi_id => $organi_almacFoto) {
             $result = valid_marking_pending($organi_id);
             if ($result) continue;
-            Log::info("Dispatching ProcessLavoraJobsV2 for organi_id: $organi_id");
             ProcessLavoraJobsV2::dispatch($organi_id, $organi_almacFoto);
         }
         return 0;

@@ -59,6 +59,8 @@ class ProcessLavoraJobsV2 implements ShouldQueue
                 if ($response['result']) {
                     $dispositivos = $response['dispositivos'];
                 }
+            } else {
+                Log::error("Error al validar organización para organi_id: {$organi_id} - Respuesta: ", $data_result);
             }
             if (empty($dispositivos)) return;
             // * ----------------------------------------------------------- Conexion de base datos -----------------------------------------------------------
@@ -179,7 +181,10 @@ class ProcessLavoraJobsV2 implements ShouldQueue
                                 create_process_markings($update_procesar_marcaciones);
                             }
                         } else {
+                            Log::error("Error al validar organización para organi_id: {$organi_id} - Respuesta: ", $data_result);
                         }
+                    } else {
+                        Log::error("Error al validar organización para organi_id: {$organi_id} - Respuesta: ", $data_result);
                     }
                 });
         } catch (\Exception $e) {
