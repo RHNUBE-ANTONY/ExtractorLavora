@@ -19,7 +19,7 @@ class ProcessLavora extends Command
      */
     public function handle()
     {
-        if (DB::table('jobs')->count() > 0) {
+        if (DB::table('jobs')->where('queue', 'lavora')->count() > 0) {
             Log::warning('Too many pending jobs in the queue. Skipping this run.');
             return 0;
         }
